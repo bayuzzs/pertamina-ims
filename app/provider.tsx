@@ -11,7 +11,7 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <SessionProvider>
       <HeroUIProvider>
-        <ToastProvider />
+        <ToastProvider placement="top-right" toastOffset={10} />
         {children}
       </HeroUIProvider>
     </SessionProvider>

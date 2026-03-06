@@ -1,3 +1,4 @@
+import type { UserStatus } from "@/types/user";
 import { DefaultSession } from "next-auth";
 
 declare module "next-auth" {
@@ -6,6 +7,8 @@ declare module "next-auth" {
       id: string;
       role: "admin" | "technician";
       username: string;
+      position?: string;
+      status?: UserStatus;
     } & DefaultSession["user"];
     accessToken: string;
   }
@@ -14,6 +17,8 @@ declare module "next-auth" {
     id: string;
     role: "admin" | "technician";
     username: string;
+    position?: string;
+    status?: UserStatus;
     accessToken: string;
   }
 }
@@ -23,6 +28,8 @@ declare module "next-auth/jwt" {
     id: string;
     role: "admin" | "technician";
     username: string;
+    position?: string;
+    status?: UserStatus;
     accessToken: string;
   }
 }

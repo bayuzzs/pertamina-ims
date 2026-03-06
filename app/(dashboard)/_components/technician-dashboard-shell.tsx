@@ -12,14 +12,13 @@ import {
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GoPackageDependencies } from "react-icons/go";
+import { LuPackagePlus } from "react-icons/lu";
 import {
-  MdBuild,
-  MdChecklist,
   MdDashboard,
   MdKeyboardArrowDown,
   MdLocalGasStation,
 } from "react-icons/md";
-import { TbReportAnalytics, TbSettings } from "react-icons/tb";
 
 type TechnicianDashboardShellProps = {
   children: React.ReactNode;
@@ -34,28 +33,16 @@ const navItems = [
     href: "/technician",
   },
   {
-    key: "work-orders",
-    label: "Work Orders",
-    icon: MdBuild,
-    href: "/",
+    key: "my-stock-request",
+    label: "My Stock Request",
+    icon: GoPackageDependencies,
+    href: "/technician/current-stock-request",
   },
   {
-    key: "checklists",
-    label: "Checklists",
-    icon: MdChecklist,
-    href: "/",
-  },
-  {
-    key: "reports",
-    label: "Reports",
-    icon: TbReportAnalytics,
-    href: "/",
-  },
-  {
-    key: "settings",
-    label: "Settings",
-    icon: TbSettings,
-    href: "/",
+    key: "new-stock-request",
+    label: "New Stock Request",
+    icon: LuPackagePlus,
+    href: "/technician/new-stock-request",
   },
 ];
 
@@ -119,8 +106,8 @@ export default function TechnicianDashboardShell({
                 Technician Workspace
               </p>
               <p className="text-default-500 text-xs leading-relaxed">
-                Fokus pada eksekusi pekerjaan lapangan dan checklist
-                maintenance.
+                Focused on field task execution and maintenance checklist
+                completion.
               </p>
             </CardBody>
           </Card>

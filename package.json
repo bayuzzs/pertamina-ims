@@ -10,9 +10,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@heroui/autocomplete": "^2.3.33",
     "@heroui/button": "^2.2.31",
+    "@heroui/date-picker": "^2.3.32",
     "@heroui/pagination": "^2.2.26",
     "@heroui/react": "^2.8.9",
+    "@heroui/switch": "^2.2.26",
     "@heroui/table": "^2.2.31",
     "@heroui/tabs": "^2.2.28",
     "@heroui/toast": "^2.0.21",

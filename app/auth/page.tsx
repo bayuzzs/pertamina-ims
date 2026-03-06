@@ -49,7 +49,7 @@ export default function AuthPage() {
 
   const showErrorToast = (message: string) => {
     addToast({
-      title: "Login Gagal",
+      title: "Failed to Sign In",
       description: message,
       color: "danger",
     });
@@ -86,7 +86,7 @@ export default function AuthPage() {
       });
 
       if (loginResult?.error || !loginResult?.ok) {
-        showErrorToast("Username, password, atau role tidak valid.");
+        showErrorToast("Account not found or Inactive.");
         return;
       }
 

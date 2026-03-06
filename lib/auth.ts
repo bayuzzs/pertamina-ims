@@ -1,3 +1,4 @@
+import type { UserStatus } from "@/types/user";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -10,6 +11,8 @@ type LoginResponse = {
     username: string;
     name: string;
     role: Role;
+    position?: string;
+    status?: UserStatus;
   };
 };
 
@@ -71,6 +74,8 @@ export const authOptions: NextAuthOptions = {
             name: data.user.name,
             username: data.user.username,
             role: data.user.role,
+            position: data.user.position,
+            status: data.user.status,
             accessToken: data.accessToken,
           };
         } catch {
@@ -85,6 +90,8 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = user.role;
         token.username = user.username;
+        token.position = user.position;
+        token.status = user.status;
         token.accessToken = user.accessToken;
       }
 
@@ -95,6 +102,8 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.role = token.role as Role;
         session.user.username = token.username as string;
+        session.user.position = token.position as string | undefined;
+        session.user.status = token.status as UserStatus | undefined;
       }
 
       session.accessToken = token.accessToken as string;

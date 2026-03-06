@@ -18,6 +18,10 @@ export type CreateUserPayload = {
   status: UserStatus;
 };
 
+export type UpdateUserStatusPayload = {
+  status: UserStatus;
+};
+
 export type UserPagination = {
   total: number;
   page: number;

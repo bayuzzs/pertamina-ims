@@ -3,6 +3,7 @@ import type {
   CreateItemPayload,
   Item,
   PaginatedItemsResponse,
+  UpdateItemPayload,
 } from "@/types/item";
 
 type GetAllItemsParams = {
@@ -27,6 +28,25 @@ export const getAllItems = async ({
   return response.data;
 };
 
+type GetActiveItemsParams = {
+  accessToken?: string;
+};
+
+export const getActiveItems = async ({
+  accessToken,
+}: GetActiveItemsParams = {}): Promise<Item[]> => {
+  const apiClient = createApiClient(accessToken);
+  const response = await apiClient.get<Item[] | { data: Item[] }>(
+    "/items/active",
+  );
+
+  if (Array.isArray(response.data)) {
+    return response.data;
+  }
+
+  return response.data.data ?? [];
+};
+
 type CreateItemParams = {
   accessToken?: string;
   payload: CreateItemPayload;
@@ -38,6 +58,23 @@ export const createItem = async ({
 }: CreateItemParams): Promise<Item> => {
   const apiClient = createApiClient(accessToken);
   const response = await apiClient.post<Item>("/items", payload);
+
+  return response.data;
+};
+
+type UpdateItemParams = {
+  accessToken?: string;
+  id: string;
+  payload: UpdateItemPayload;
+};
+
+export const updateItem = async ({
+  accessToken,
+  id,
+  payload,
+}: UpdateItemParams): Promise<Item> => {
+  const apiClient = createApiClient(accessToken);
+  const response = await apiClient.patch<Item>(`/items/${id}`, payload);
 
   return response.data;
 };

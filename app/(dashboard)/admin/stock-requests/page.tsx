@@ -1,21 +1,19 @@
 import { authOptions } from "@/lib/auth";
-import { getAllItems } from "@/services/item.service";
-import type { Item } from "@/types/item";
+import { getPendingInventoryMovements } from "@/services/inventory-movement.service";
+import type { InventoryMovement } from "@/types/inventory-movement";
 import { getServerSession } from "next-auth";
-import AddItemModal from "./_components/add-item-modal";
-import InventoryPagination from "./_components/inventory-pagination";
-import InventoryTable from "./_components/inventory-table";
+import { StockRequestPagination, StockRequestTable } from "./_components";
 
-type InventoryPageProps = {
+type AdminStockRequestPageProps = {
   searchParams?: Promise<{
     page?: string;
     limit?: string;
   }>;
 };
 
-export default async function AdminInventoryPage({
+export default async function AdminStockRequestsPage({
   searchParams,
-}: InventoryPageProps) {
+}: AdminStockRequestPageProps) {
   const session = await getServerSession(authOptions);
   const resolvedSearchParams = await searchParams;
 
@@ -24,22 +22,22 @@ export default async function AdminInventoryPage({
   const currentPage = Number.isFinite(page) && page > 0 ? page : 1;
   const currentLimit = Number.isFinite(limit) && limit > 0 ? limit : 10;
 
-  let items: Item[] = [];
+  let requests: InventoryMovement[] = [];
   let total = 0;
   let totalPages = 1;
 
   try {
-    const response = await getAllItems({
+    const response = await getPendingInventoryMovements({
       accessToken: session?.accessToken,
       page: currentPage,
       limit: currentLimit,
     });
 
-    items = response.data;
+    requests = response.data;
     total = response.pagination.total;
     totalPages = response.pagination.pages;
   } catch {
-    items = [];
+    requests = [];
     total = 0;
     totalPages = 1;
   }
@@ -47,31 +45,27 @@ export default async function AdminInventoryPage({
   return (
     <div className="space-y-4 sm:space-y-5">
       <section className="bg-content1 border-default-200 rounded-2xl border p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h1 className="text-foreground text-xl font-bold tracking-tight sm:text-2xl">
-              Inventory Master Data
-            </h1>
-            <p className="text-default-500 mt-1 text-sm leading-relaxed">
-              Manage and track all aviation fuel terminal inventory items, stock
-              levels, and item details in one centralized dashboard.
-            </p>
-          </div>
-          <AddItemModal accessToken={session?.accessToken} />
-        </div>
+        <h1 className="text-foreground text-xl font-bold tracking-tight sm:text-2xl">
+          Stock Request
+        </h1>
+        <p className="text-default-500 mt-1 text-sm leading-relaxed">
+          Review stock requests from technicians and approve pending requests.
+        </p>
       </section>
 
       <section className="bg-content1 border-default-200 rounded-2xl border p-3 sm:p-4">
         <div className="border-default-100 mb-3 border-b px-2 pb-3 sm:mb-4 sm:px-3">
-          <p className="text-foreground text-sm font-semibold">
-            Inventory List
-          </p>
+          <p className="text-foreground text-sm font-semibold">Request List</p>
           <p className="text-default-500 mt-0.5 text-xs">
-            Showing all inventory items based on the latest data.
+            Showing key data only. Use actions to see detail or approve request.
           </p>
         </div>
-        <InventoryTable items={items} accessToken={session?.accessToken} />
-        <InventoryPagination
+
+        <StockRequestTable
+          requests={requests}
+          accessToken={session?.accessToken}
+        />
+        <StockRequestPagination
           page={currentPage}
           pages={totalPages}
           total={total}

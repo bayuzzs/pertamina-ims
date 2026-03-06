@@ -1,5 +1,9 @@
 import { createApiClient } from "@/lib/api-interceptor";
-import type { CreateUserPayload, User } from "@/types/user";
+import type {
+  CreateUserPayload,
+  UpdateUserStatusPayload,
+  User,
+} from "@/types/user";
 
 type GetAllUsersParams = {
   accessToken?: string;
@@ -31,6 +35,26 @@ export const createUser = async ({
 }: CreateUserParams): Promise<User> => {
   const apiClient = createApiClient(accessToken);
   const response = await apiClient.post<User>("/technicians", payload);
+
+  return response.data;
+};
+
+type UpdateUserStatusParams = {
+  accessToken?: string;
+  id: string;
+  payload: UpdateUserStatusPayload;
+};
+
+export const updateUserStatus = async ({
+  accessToken,
+  id,
+  payload,
+}: UpdateUserStatusParams): Promise<User> => {
+  const apiClient = createApiClient(accessToken);
+  const response = await apiClient.patch<User>(
+    `/technicians/${id}/status`,
+    payload,
+  );
 
   return response.data;
 };

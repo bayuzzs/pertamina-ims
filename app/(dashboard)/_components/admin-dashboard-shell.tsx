@@ -12,6 +12,7 @@ import {
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GoPackageDependencies } from "react-icons/go";
 import {
   MdDashboard,
   MdGroup,
@@ -19,7 +20,7 @@ import {
   MdKeyboardArrowDown,
   MdLocalGasStation,
 } from "react-icons/md";
-import { TbClipboardList, TbReportAnalytics } from "react-icons/tb";
+import { TbReportAnalytics } from "react-icons/tb";
 
 type AdminDashboardShellProps = {
   children: React.ReactNode;
@@ -40,16 +41,16 @@ const navItems = [
     href: "/admin/inventory",
   },
   {
-    key: "requests",
-    label: "Requests",
-    icon: TbClipboardList,
-    href: "/",
+    key: "stock-requests",
+    label: "Stock Request",
+    icon: GoPackageDependencies,
+    href: "/admin/stock-requests",
   },
   {
     key: "reports",
     label: "Reports",
     icon: TbReportAnalytics,
-    href: "/",
+    href: "/admin/reports",
   },
   {
     key: "users",

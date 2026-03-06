@@ -28,6 +28,17 @@ export type CreateItemPayload = {
   status: ItemStatus;
 };
 
+export type UpdateItemPayload = {
+  name: string;
+  description: string;
+  vendor: string;
+  location: string;
+  cost: number;
+  stock: number;
+  unit: ItemUnit;
+  status: ItemStatus;
+};
+
 export type ItemPagination = {
   total: number;
   page: number;

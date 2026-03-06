@@ -42,7 +42,7 @@ export default async function AdminUsersPage() {
             status.
           </p>
         </div>
-        <UsersTable users={users} />
+        <UsersTable users={users} accessToken={session?.accessToken} />
       </section>
     </div>
   );

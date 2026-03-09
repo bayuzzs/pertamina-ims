@@ -13,6 +13,7 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { MdSend } from "react-icons/md";
 import { z } from "zod";
 
 type NewStockRequestFormProps = {
@@ -305,6 +306,7 @@ export default function NewStockRequestForm({
           type="submit"
           isLoading={isSubmitting}
           isDisabled={!isValid || itemsLoading}
+          startContent={<MdSend size={18} />}
         >
           Submit Request
         </Button>

@@ -21,6 +21,7 @@ import {
   MdLocalGasStation,
 } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
+import NotificationCenter from "./notification-center";
 
 type AdminDashboardShellProps = {
   children: React.ReactNode;
@@ -120,8 +121,8 @@ export default function AdminDashboardShell({
                 Admin Workspace
               </p>
               <p className="text-default-500 text-xs leading-relaxed">
-                Kelola inventori, request, dan pelaporan dari satu panel
-                terpusat.
+                Streamline inventory, requests, and reporting—all from one
+                unified dashboard
               </p>
             </CardBody>
           </Card>
@@ -138,50 +139,57 @@ export default function AdminDashboardShell({
               </p>
             </div>
 
-            <Dropdown placement="bottom-end" backdrop="blur">
-              <DropdownTrigger>
-                <button
-                  type="button"
-                  className="hover:bg-default-100 flex h-11 items-center gap-2 rounded-xl px-2 transition-colors"
+            <div className="flex items-center gap-2">
+              <NotificationCenter />
+
+              <Dropdown placement="bottom-end" backdrop="blur">
+                <DropdownTrigger>
+                  <button
+                    type="button"
+                    className="hover:bg-default-100 flex h-11 items-center gap-2 rounded-xl px-2 transition-colors"
+                  >
+                    <Avatar name={userName} size="sm" className="h-7 w-7" />
+                    <div className="hidden min-w-0 text-left sm:block">
+                      <p className="text-foreground max-w-36 truncate text-sm font-semibold">
+                        {userName}
+                      </p>
+                      <p className="text-default-500 text-[11px] capitalize">
+                        admin
+                      </p>
+                    </div>
+                    <MdKeyboardArrowDown
+                      size={18}
+                      className="text-default-500"
+                    />
+                  </button>
+                </DropdownTrigger>
+
+                <DropdownMenu
+                  aria-label="Profile menu"
+                  className="min-w-44"
+                  onAction={(key) => {
+                    if (key === "logout") {
+                      signOut({ callbackUrl: "/auth" });
+                    }
+                  }}
                 >
-                  <Avatar name={userName} size="sm" className="h-7 w-7" />
-                  <div className="hidden min-w-0 text-left sm:block">
-                    <p className="text-foreground max-w-36 truncate text-sm font-semibold">
+                  <DropdownItem
+                    key="profile"
+                    className="h-12 gap-2"
+                    isReadOnly
+                    textValue="Profile"
+                  >
+                    <p className="text-foreground text-sm font-semibold">
                       {userName}
                     </p>
-                    <p className="text-default-500 text-[11px] capitalize">
-                      admin
-                    </p>
-                  </div>
-                  <MdKeyboardArrowDown size={18} className="text-default-500" />
-                </button>
-              </DropdownTrigger>
-
-              <DropdownMenu
-                aria-label="Profile menu"
-                className="min-w-44"
-                onAction={(key) => {
-                  if (key === "logout") {
-                    signOut({ callbackUrl: "/auth" });
-                  }
-                }}
-              >
-                <DropdownItem
-                  key="profile"
-                  className="h-12 gap-2"
-                  isReadOnly
-                  textValue="Profile"
-                >
-                  <p className="text-foreground text-sm font-semibold">
-                    {userName}
-                  </p>
-                  <p className="text-default-500 text-xs capitalize">admin</p>
-                </DropdownItem>
-                <DropdownItem key="logout" color="danger">
-                  Logout
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+                    <p className="text-default-500 text-xs capitalize">admin</p>
+                  </DropdownItem>
+                  <DropdownItem key="logout" color="danger">
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
           </header>
 
           <main className="flex-1 p-4 sm:p-6">

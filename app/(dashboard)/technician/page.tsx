@@ -29,32 +29,34 @@ export default async function TechnicianDashboardPage() {
     unit: string;
   }> = [];
 
-  try {
-    const [myRequestsResponse, itemsResponse] = await Promise.all([
-      getMyInventoryMovements({
-        accessToken: session?.accessToken,
-        page: 1,
-        limit: 1000,
-      }),
-      getAllItems({
-        accessToken: session?.accessToken,
-        page: 1,
-        limit: 1000,
-      }),
-    ]);
+  const [myRequestsResult, itemsResult] = await Promise.allSettled([
+    getMyInventoryMovements({
+      accessToken: session?.accessToken,
+      page: 1,
+      limit: 1000,
+    }),
+    getAllItems({
+      accessToken: session?.accessToken,
+      page: 1,
+      limit: 1000,
+    }),
+  ]);
 
-    totalRequests = myRequestsResponse.pagination.total;
-    pendingRequests = myRequestsResponse.data.filter(
+  if (myRequestsResult.status === "fulfilled") {
+    totalRequests = myRequestsResult.value.pagination.total;
+    pendingRequests = myRequestsResult.value.data.filter(
       (request) => request.status === "pending",
     ).length;
-    approvedRequests = myRequestsResponse.data.filter(
+    approvedRequests = myRequestsResult.value.data.filter(
       (request) => request.status === "approved",
     ).length;
-    rejectedRequests = myRequestsResponse.data.filter(
+    rejectedRequests = myRequestsResult.value.data.filter(
       (request) => request.status === "rejected",
     ).length;
+  }
 
-    lowStockWatchlist = itemsResponse.data
+  if (itemsResult.status === "fulfilled") {
+    lowStockWatchlist = itemsResult.value.data
       .filter(
         (item) =>
           item.status === "active" && item.stock <= STOCK_THIN_THRESHOLD,
@@ -68,12 +70,6 @@ export default async function TechnicianDashboardPage() {
         stock: item.stock,
         unit: item.unit,
       }));
-  } catch {
-    totalRequests = 0;
-    pendingRequests = 0;
-    approvedRequests = 0;
-    rejectedRequests = 0;
-    lowStockWatchlist = [];
   }
 
   const completionRate =

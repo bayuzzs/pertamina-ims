@@ -29,7 +29,9 @@ export const normalizeNotificationStatus = (
     : ENotificationStatus.UNREAD;
 };
 
-export const normalizeNotificationType = (value?: string): ENotificationType => {
+export const normalizeNotificationType = (
+  value?: string,
+): ENotificationType => {
   const normalizedValue = String(value ?? "").toUpperCase();
 
   if (normalizedValue === ENotificationType.LOW_STOCK) {

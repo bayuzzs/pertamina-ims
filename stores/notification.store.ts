@@ -26,16 +26,21 @@ type NotificationStore = {
 
 const sortByLatest = (notifications: Notification[]) => {
   return [...notifications].sort((first, second) => {
-    const firstDate = new Date(first.updatedAt ?? first.createdAt ?? 0).getTime();
-    const secondDate = new Date(second.updatedAt ?? second.createdAt ?? 0).getTime();
+    const firstDate = new Date(
+      first.updatedAt ?? first.createdAt ?? 0,
+    ).getTime();
+    const secondDate = new Date(
+      second.updatedAt ?? second.createdAt ?? 0,
+    ).getTime();
 
     return secondDate - firstDate;
   });
 };
 
 const getUnreadCount = (notifications: Notification[]) => {
-  return notifications.filter((notification) => isUnreadNotification(notification.status))
-    .length;
+  return notifications.filter((notification) =>
+    isUnreadNotification(notification.status),
+  ).length;
 };
 
 export const useNotificationStore = create<NotificationStore>((set, get) => ({
@@ -106,8 +111,8 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
       return false;
     }
 
-    const unreadNotifications = get().notifications.filter(
-      (notification) => isUnreadNotification(notification.status),
+    const unreadNotifications = get().notifications.filter((notification) =>
+      isUnreadNotification(notification.status),
     );
 
     if (unreadNotifications.length === 0) {

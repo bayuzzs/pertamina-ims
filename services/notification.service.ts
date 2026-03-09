@@ -19,7 +19,8 @@ export const getNotifications = async ({
   accessToken,
 }: NotificationActionParams = {}): Promise<Notification[]> => {
   const apiClient = createApiClient(accessToken);
-  const response = await apiClient.get<NotificationListResponse>("/notifications");
+  const response =
+    await apiClient.get<NotificationListResponse>("/notifications");
 
   const mapNotification = (notification: Notification): Notification => ({
     ...notification,

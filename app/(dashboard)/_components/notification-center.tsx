@@ -179,7 +179,9 @@ export default function NotificationCenter({
         <div className="w-full">
           <div className="border-default-200 flex items-center justify-between border-b px-4 py-3">
             <div>
-              <p className="text-foreground text-sm font-semibold">Notifications</p>
+              <p className="text-foreground text-sm font-semibold">
+                Notifications
+              </p>
               <p className="text-default-500 text-xs">
                 {unreadCount} unread • {notifications.length} total
               </p>
@@ -223,7 +225,9 @@ export default function NotificationCenter({
             ) : (
               <div className="space-y-2">
                 {notifications.map((notification) => {
-                  const typeConfig = getNotificationTypeConfig(notification.type);
+                  const typeConfig = getNotificationTypeConfig(
+                    notification.type,
+                  );
                   const isUnread = isUnreadNotification(notification.status);
 
                   return (
@@ -265,7 +269,9 @@ export default function NotificationCenter({
                             </Chip>
                           </div>
                           <p className="text-default-400 mt-1 text-[11px]">
-                            {formatDate(notification.updatedAt ?? notification.createdAt)}
+                            {formatDate(
+                              notification.updatedAt ?? notification.createdAt,
+                            )}
                           </p>
                         </button>
 
